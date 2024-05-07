@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .tab{
+            font-size: small;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-style: italic;
+            width: 500px;
+            background-color: silver;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 30px;
+            border-radius: 20px;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <!-- <iframe src="https://giphy.com/embed/JtBZm3Getg3dqxK0zP" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/JtBZm3Getg3dqxK0zP">via GIPHY</a></p> -->
+    <div class="tab"></div>
+    <script>
+        var a = localStorage.getItem("data");
+        var StockData = JSON.parse(a);
+        console.log(StockData);
+    
+
+        var d = document.getElementsByClassName("tab");
+        for(let i in  StockData){
+            let h = document.createElement("h1");
+            h.innerHTML=`${i}:  ${StockData[i]}`;
+            d[0].appendChild(h); 
+        }
+    
+    </script>
+</body>
+</html>

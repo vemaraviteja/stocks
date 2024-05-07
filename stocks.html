@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+      
+      body{
+        font-style: italic;
+        font-size: small;
+        background-color: black;
+      }
+      #tab{
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 30px;
+      }
+      #tab>div{
+        margin-left: 20px;
+        text-align: center;
+      }
+      form{
+        margin-left: 400px;
+        margin-top: 50px;
+      }
+      input{
+        margin-bottom: 30px;
+      }
+      input[type="text"]{
+        width: 400px;
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" placeholder="Enter Company Name">
+        <label for="floatingInput">Enter Company Name</label>
+      </div>
+      <input type="submit" class="btn btn-outline-success" />
+    </form>
+    <div id="tab"  ></div>
+
+  
+    <script>
+      var f = document.forms;
+      f[0].addEventListener("submit", (e) => {
+        e.preventDefault();
+        var d = e.target[0].value;
+        console.log(d);
+        e.target[0].value = "";
+
+        const dummy =
+          "https://real-time-finance-data.p.rapidapi.com/search?query=company&language=en";
+        const url = dummy.replace("company", d);
+        console.log(url);
+        const options = {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key":
+              "975a7cbb2dmsh20d27954cf6d941p1d1f68jsnc6c84dda2d0f",
+            "X-RapidAPI-Host": "real-time-finance-data.p.rapidapi.com",
+          },
+        };
+        var arr = [];
+        fetch(url, options)
+          .then((val) => {
+            return val.json();
+          })
+          .then((val) => {
+            // console.log(val);
+            arr.push(val);
+            console.log(arr);
+            console.log(arr[0].data.stock);
+            let data = arr[0].data.stock;
+            console.log(data.length);
+            var tb = document.getElementById("tab");
+            for (let i = 0; i < data.length; i++) {
+              let d = document.createElement("div");
+              let hone = document.createElement("h1");
+              let htwo = document.createElement("h1");
+              let hthree = document.createElement("h1");
+              let hfour = document.createElement("h1");
+
+              hone.innerHTML = `SYMBOL: ${data[i].symbol}`;
+              htwo.innerHTML=`Exchange: ${data[i].exchange}`;
+              hthree.innerHTML=`Currency: ${data[i].currency}`;
+              hfour.innerHTML=`Type: ${data[i].type}`
+              // console.log(hone);
+              // console.log(hfour);
+
+              d.appendChild(hone);
+              d.appendChild(htwo);
+              d.appendChild(hthree);
+              d.appendChild(hfour);
+
+              let btn = document.createElement("button");
+              btn.innerText="See More";
+              d.appendChild(btn);
+              d.style.border="2px solid silver"
+              d.style.backgroundColor="silver"
+              tb.appendChild(d);
+
+              btn.addEventListener("click",()=>{
+
+                localStorage.setItem("data", JSON.stringify(data[i]));
+                window.location.assign("./stocks1.html")
+
+              })
+            }
+          });
+
+       
+
+        // td1.innerHTML=arr[0].data.ETF
+      });
+    </script>
+  </body>
+</html>
